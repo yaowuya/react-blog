@@ -1,0 +1,13 @@
+{
+  "extends": "eslint-config-egg",
+  "rules": {
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always",
+      }
+    ]
+  }
+}

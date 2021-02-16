@@ -1,0 +1,30 @@
+.detailedTitle {
+  font-size: 1.8rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.detailedContent {
+  padding: 1.3rem;
+  font-size: 1rem;
+}
+
+.reactMarkDown {
+  display: block;
+  background-color: #f3f3f3;
+  padding: .5rem !important;
+  overflow-y: auto;
+  font-weight: 300;
+  font-family: Menlo, monospace;
+  border-radius: .3rem;
+}
+
+.navTitle {
+  text-align: center;
+  color: #888;
+  border-bottom: 2Px solid rgb(30, 144, 255);
+}
