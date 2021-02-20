@@ -6,10 +6,12 @@ import {CalendarOutlined, FireOutlined, FolderOutlined} from '@ant-design/icons'
 import Author from '../components/Author';
 import Advert from '../components/Advert';
 import Footer from '../components/Footer';
+import Link from "next/link";
 import axios from "axios";
+import servicePath from "../config/apiUrl";
 
 const Home = (list) => {
-    console.log(list);
+    // console.log(list);
     const [myList, setMyList] = useState(list.data)
     return (
         <>
@@ -19,14 +21,18 @@ const Home = (list) => {
             </Head>
             <Header></Header>
             <Row className="commonMain" justify="center">
-                <Col className="commonLeft" xs={24} sm={24} md={16} lg={18} xl={14}>
+                <Col className="commonLeft" xs={24} sm={24} md={18}>
                     <List
                         header={<div>最新日志</div>}
                         itemLayout="vertical"
                         dataSource={myList}
                         renderItem={item => (
                             <List.Item>
-                                <div className='listTitle'>{item.title}</div>
+                                <div className='listTitle'>
+                                    <Link href={{pathname: '/detailed', query: {id: item.id}}}>
+                                        <a>{item.title}</a>
+                                    </Link>
+                                </div>
                                 <div className='listIcon'>
                                     <span className='listIconSpan'><CalendarOutlined/> {item.addTime}</span>
                                     <span className='listIconSpan'><FolderOutlined/> {item.typeName}</span>
@@ -37,7 +43,7 @@ const Home = (list) => {
                         )}
                     ></List>
                 </Col>
-                <Col className="commonRight" xs={0} sm={0} md={7} lg={5} xl={4}>
+                <Col className="commonRight" xs={0} sm={0} md={6}>
                     <Author></Author>
                     <Advert></Advert>
                 </Col>
@@ -48,7 +54,7 @@ const Home = (list) => {
 }
 
 Home.getInitialProps = async () => {
-    const res = await axios.get('http://127.0.0.1:7001/default/getArticleList')
+    const res = await axios.get(servicePath.getArticleList)
     // console.log(res.data);
     return res.data
 }

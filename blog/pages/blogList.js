@@ -22,7 +22,7 @@ const BlogList = () => {
       </Head>
       <Header></Header>
       <Row className="commonMain" justify="center">
-        <Col className="commonLeft" xs={24} sm={24} md={16} lg={18} xl={14} >
+        <Col className="commonLeft" xs={24} sm={24} md={18} >
           <div className="blogBread">
             <Breadcrumb>
               <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
@@ -45,7 +45,7 @@ const BlogList = () => {
             )}
           ></List>
         </Col>
-        <Col className="commonRight" xs={0} sm={0} md={7} lg={5} xl={4}>
+        <Col className="commonRight" xs={0} sm={0} md={6}>
           <Author></Author>
           <Advert></Advert>
         </Col>

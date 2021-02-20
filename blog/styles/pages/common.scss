@@ -3,29 +3,33 @@ body {
 }
 
 .commonMain {
+  max-width: 1100px;
+  margin: 0 auto;
   margin-top: .5rem;
 
   .commonLeft {
     background-color: #FFF;
-    padding: .3rem;
+    padding:.3rem;
     border-radius: .3rem;
-    border-bottom: 1px solid #eee;
+    border:1px solid #eee;
+    margin-bottom: 16px;
   }
 
   .commonRight {
-    background-color: #FFF;
-    margin-left: .5rem;
-    padding: .3rem;
-    border-radius: .3rem;
-    border-bottom: 1px solid #eee;
+    //background-color: #FFF;
+    //margin-left: .5rem;
+    //padding: .3rem;
+    //border-radius: .3rem;
+    //border-bottom: 1px solid #eee;
   }
 }
 
 .commonBox {
   background-color: #FFF;
-  padding: .3rem;
+  margin-left: .5rem;
+  padding:.3rem;
   border-radius: .3rem;
-  border: 1px solid #eee;
+  border:1px solid #eee;
 }
 
 .listTitle {
@@ -68,5 +72,78 @@ body {
 
   .active {
     color: rgb(30, 144, 255) !important;
+  }
+}
+
+.detail-box {
+  pre {
+    display: block;
+    background-color: #f3f3f3;
+    padding: .5rem !important;
+    overflow-y: auto;
+    font-weight: 300;
+    font-family: Menlo, monospace;
+    border-radius: .3rem;
+  }
+
+  pre {
+    background-color: #283646 !important;
+  }
+
+  pre > code {
+    border: 0px !important;
+    background-color: #283646 !important;
+    color: #FFF;
+
+  }
+
+  code {
+    display: inline-block;
+    background-color: #fff5f5;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #ff502c;
+    margin: 0px 3px;
+    line-height: 1.1rem;
+    font-size: .87rem;
+  }
+
+  .title-anchor {
+    color: #888 !important;
+    padding: 4px !important;
+    margin: 0rem !important;
+    height: auto !important;
+    line-height: 1.2rem !important;
+    font-size: .7rem !important;
+    border-bottom: 1px dashed #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .active {
+    color: rgb(30, 144, 255) !important;
+  }
+
+  iframe {
+    height: 34rem;
+  }
+
+  .detailedContent img {
+    width: 100%;
+    border: 1px solid #f3f3f3;
+  }
+
+  .title-level3 {
+    display: none !important;
+  }
+
+  .ant-anchor-link-title {
+    font-size: 12px !important;
+  }
+
+  .ant-anchor-wrapper {
+    padding: 5px !important;
   }
 }
