@@ -37,7 +37,7 @@ const Detailed = (props) => {
     });
     let html = marked(props.article_content)
     return (
-        <div className="detail-box">
+        <div className="markdown-box">
             <Head>
                 <title>Detailed</title>
                 <link rel="icon" href="/favicon.ico"/>

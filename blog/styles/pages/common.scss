@@ -9,9 +9,9 @@ body {
 
   .commonLeft {
     background-color: #FFF;
-    padding:.3rem;
+    padding: .3rem;
     border-radius: .3rem;
-    border:1px solid #eee;
+    border: 1px solid #eee;
     margin-bottom: 16px;
   }
 
@@ -27,9 +27,9 @@ body {
 .commonBox {
   background-color: #FFF;
   margin-left: .5rem;
-  padding:.3rem;
+  padding: .3rem;
   border-radius: .3rem;
-  border:1px solid #eee;
+  border: 1px solid #eee;
 }
 
 .listTitle {
@@ -75,7 +75,7 @@ body {
   }
 }
 
-.detail-box {
+.markdown-box {
   pre {
     display: block;
     background-color: #f3f3f3;
@@ -145,5 +145,15 @@ body {
 
   .ant-anchor-wrapper {
     padding: 5px !important;
+  }
+
+  .list-context img {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #f0f0f0;
+    max-width: 1000px !important;
+    display: block;
+    margin: 8px auto;
+
   }
 }

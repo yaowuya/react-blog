@@ -9,8 +9,27 @@ import Footer from '../components/Footer';
 import Link from "next/link";
 import axios from "axios";
 import servicePath from "../config/apiUrl";
+import marked from 'marked'
+import hljs from "highlight.js";
+import 'highlight.js/styles/monokai-sublime.css';
 
 const Home = (list) => {
+    const renderer = new marked.Renderer();
+    marked.setOptions({
+        renderer: renderer,
+        gfm: true,
+        pedantic: false,
+        sanitize: false,
+        tables: true,
+        breaks: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false,
+        highlight: function (code) {
+            return hljs.highlightAuto(code).value;
+        }
+
+    });
     // console.log(list);
     const [myList, setMyList] = useState(list.data)
     return (
@@ -38,7 +57,10 @@ const Home = (list) => {
                                     <span className='listIconSpan'><FolderOutlined/> {item.typeName}</span>
                                     <span className='listIconSpan'><FireOutlined/> {item.view_count}人</span>
                                 </div>
-                                <div className='listContext'>{item.introduce}</div>
+                                <div
+                                    className='listContext markdown-box'
+                                    dangerouslySetInnerHTML={{__html: marked(item.introduce)}}
+                                />
                             </List.Item>
                         )}
                     ></List>
