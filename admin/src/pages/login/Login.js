@@ -24,10 +24,11 @@ const Login = (props) => {
         }
         setIsLoading(true)
         const res = await axios({
+            withCredentials: true,
+            headers: {'Access-Control-Allow-Origin': '*'},
             method: 'post',
             url: servicePath.checkLogin,
-            data: dataProps,
-            withCredentials: true
+            data: dataProps
         })
         console.log(res.data);
         setIsLoading(false)

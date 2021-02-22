@@ -47,10 +47,11 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true,
     },
-    domainWhiteList: [ 'http://localhost:3000', 'http://localhost:3001' ],
+    // domainWhiteList: [ 'http://localhost:3000', 'http://localhost:3001' ],
+    domainWhiteList: [ '*' ],
   };
   config.cors = {
-    // origin: [],
+    origin: 'http://localhost:3000',
     credentials: true, // 允许Cook可以跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };

@@ -1,14 +1,16 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './AddArticle.scss'
-import {Button, Col, DatePicker, Input, Row, Select} from "antd";
+import {Button, Col, DatePicker, Input, message, Row, Select} from "antd";
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
+import axios from "axios";
+import servicePath from "../../config/apiUrl";
 
 const {Option} = Select
 const {TextArea} = Input
 
-function AddArticle() {
+function AddArticle(props) {
     const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
     const [articleTitle, setArticleTitle] = useState('')   //文章标题
     const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
@@ -45,6 +47,109 @@ function AddArticle() {
         setIntroducehtml(html)
     }
 
+    const getTypeInfo = async () => {
+        const res = await axios({
+            method: 'get',
+            url: servicePath.getTypeInfo,
+            headers: {'Access-Control-Allow-Origin': '*'},
+            withCredentials: true
+        })
+        if (res.data.data == "没有登录") {
+            localStorage.removeItem('openId')
+            props.history.push('/')
+        } else {
+            setTypeInfo(res.data.data)
+        }
+    }
+
+    const getArticleById = async (id) => {
+        const res = await axios({
+            method: 'get',
+            url: servicePath.getArticleById + id,
+            withCredentials: true
+        })
+        setArticleTitle(res.data.data[0].title)
+        setArticleContent(res.data.data[0].article_content)
+        // let html = marked(res.data.data[0].article_content)
+        let html = res.data.data[0].article_content
+        setMarkdownContent(html)
+        setIntroducemd(res.data.data[0].introduce)
+        // let tmpInt = marked(res.data.data[0].introduce)
+        let tmpInt = res.data.data[0].introduce
+        setIntroducehtml(tmpInt)
+        setShowDate(res.data.data[0].addTime)
+        setSelectType(res.data.data[0].typeId)
+    }
+    useEffect(() => {
+        getTypeInfo().then()
+        //获得文章ID
+        let tmpId = props.match.params.id
+        if (tmpId) {
+            setArticleId(tmpId)
+            getArticleById(tmpId).then()
+        }
+    }, [])
+
+    const selectTypeHandler = (value) => {
+        setSelectType(value)
+    }
+
+    const saveArticle = async () => {
+        if (!selectedType) {
+            message.error('必须选择文章类别')
+            return false
+        } else if (!articleTitle) {
+            message.error('文章名称不能为空')
+            return false
+        } else if (!articleContent) {
+            message.error('文章内容不能为空')
+            return false
+        } else if (!introducemd) {
+            message.error('简介不能为空')
+            return false
+        } else if (!showDate) {
+            message.error('发布日期不能为空')
+            return false
+        }
+        const dataProps = {}
+        dataProps.type_id = selectedType
+        dataProps.title = articleTitle
+        dataProps.article_content = articleContent
+        dataProps.introduce = introducemd
+        let dateText = showDate.replace('-', '/') //把字符串转换成时间戳
+        dataProps.addTime = (new Date(dateText).getTime()) / 1000
+
+        if (articleId === 0) {
+            console.log('articleId=:' + articleId);
+            dataProps.view_count = Math.ceil(Math.random() * 100) + 1000
+            const res = await axios({
+                method: 'post',
+                url: servicePath.addArticle,
+                data: dataProps,
+                withCredentials: true
+            })
+            setArticleId(res.data.insertId)
+            if (res.data.isScuccess) {
+                message.success('文章保存成功')
+            } else {
+                message.error('文章保存失败');
+            }
+        } else {
+            dataProps.id = articleId
+            const res = await axios({
+                method: 'post',
+                url: servicePath.updateArticle,
+                data: dataProps,
+                withCredentials: true
+            })
+            if (res.data.isScuccess) {
+                message.success('文章保存成功')
+            } else {
+                message.error('保存失败');
+            }
+        }
+    }
+
     const showHtml = {__html: marked(markdownContent)}
     const introduceHtml = {__html: marked('文章简介：' + introducehtml)}
     return (
@@ -54,13 +159,23 @@ function AddArticle() {
                     <Row gutter={10}>
                         <Col span={20}>
                             <Input
+                                value={articleTitle}
+                                onChange={e => {
+                                    setArticleTitle(e.target.value)
+                                }}
                                 placeholder="博客标题"
                                 size="large"/>
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select defaultValue="Sign Up" size="large">
-                                <Option value="Sign Up">视频教程</Option>
+                            <Select defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
+                                {
+                                    typeInfo.map((item, index) => {
+                                        return (
+                                            <Option key={index} value={item.id}>{item.typeName}</Option>
+                                        )
+                                    })
+                                }
                             </Select>
                         </Col>
                     </Row>
@@ -89,7 +204,7 @@ function AddArticle() {
                     <Row>
                         <Col span={24}>
                             <Button size="large">暂存文章</Button>&nbsp;
-                            <Button type="primary" size="large">发布文章</Button>
+                            <Button type="primary" size="large" onClick={saveArticle}>发布文章</Button>
                             <br/>
                         </Col>
                         <Col span={24}>
@@ -113,6 +228,7 @@ function AddArticle() {
                                 <DatePicker
                                     placeholder="发布日期"
                                     size="large"
+                                    onChange={(date, dateString) => setShowDate(dateString)}
                                 />
                             </div>
                         </Col>
